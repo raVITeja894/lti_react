@@ -32,7 +32,7 @@ function Login() {
             <div className="card-body">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-3">
-                        <label className="form-label">Username</label>
+                        <label className="form-label">Email</label>
                         <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
                         <div className="invalid-feedback">{errors.username?.message}</div>
                     </div>

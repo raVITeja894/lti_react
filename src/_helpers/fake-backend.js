@@ -41,7 +41,7 @@ function fakeBackend() {
           (x) => x.username === username && x.password === password
         );
 
-        if (!user) return error("Username or password is incorrect");
+        if (!user) return error("Email or password is incorrect");
 
         return ok({
           ...basicDetails(user),
