@@ -21,18 +21,16 @@ function AddEdit() {
         eventName: Yup.string()
             .required('Event Name is required'),
         eventDescription: Yup.string()
-            .required('Last Name is required'),
+            .required('Event Description is required'),
         username: Yup.string()
             .required('Username is required'),
         eventPrice:Yup.number()
             .required('Enter Number'),
         bookingType:Yup.string().required('Radio button is required').oneOf(['Premium','Normal']),
-        checkBox:Yup.boolean().oneOf([true],'Checkbox is required'),
-        password: Yup.string()
-            .transform(x => x === '' ? undefined : x)
-            // password optional in edit mode
-            .concat(id ? null : Yup.string().required('Password is required'))
-            .min(6, 'Password must be at least 6 characters')
+        acceptTerms:Yup.boolean().oneOf([true],'Checkbox is required'),
+        eventDate: Yup.string()
+            .required('Event Date is required')
+            .matches(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/, 'Date of Event must be a valid date in the format YYYY-MM-DD')
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -59,10 +57,10 @@ function AddEdit() {
             let message;
             if (id) {
                 await dispatch(userActions.update({ id, data })).unwrap();
-                message = 'User updated';
+                message = 'Event updated';
             } else {
                 await dispatch(userActions.register(data)).unwrap();
-                message = 'User added';
+                message = 'Event added';
             }
 
             // redirect to user list with success message
@@ -89,11 +87,7 @@ function AddEdit() {
                             <input name="eventName" type="text" {...register('eventName')} className={`form-control ${errors.eventName ? 'is-invalid' : ''}`} />
                             <div className="invalid-feedback">{errors.eventName?.message}</div>
                         </div>
-                        {/* <div className="mb-3 col">
-                            <label className="form-label">Last Name</label>
-                            <input name="lastName" type="text" {...register('lastName')} className={`form-control ${errors.lastName ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.lastName?.message}</div>
-                        </div> */}
+                       
                         <div className="mb-3 col">
                             <label className="form-label">Event Description</label>
                             <input name="eventDescription" type="text" {...register('eventDescription')} className={`form-control ${errors.eventDescription ? 'is-invalid' : ''}`} />
@@ -113,29 +107,31 @@ function AddEdit() {
                         </div>
                         <div className="mb-3 col">
                             <label className="form-label">
-                                Date
-                                {/* {id && <em className="ml-1">(Leave blank to keep the same password)</em>} */}
+                                Event Date
                             </label>
-                            <input name="password" type="date" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.password?.message}</div>
+                            <input name="eventDate" type="date" {...register('eventDate')} className={`form-control ${errors.eventDate ? 'is-invalid' : ''}`} />
+                            <div className="invalid-feedback">{errors.eventDate?.message}</div>
                         </div>
                      </div>
-                     <div style={{display:'flex',alignItems:'center'}}>
+                     <div  >
                         
-                            <label className="form-label">Booking Type</label>
-                            <input name="bookingType" type="radio"value ="Premium"  {...register('bookingType')} className={`form-control ${errors.bookingType ? 'is-invalid' : ''}`} />
-                            <label htmlFor='Premium'>Premium</label>
-                            <input name="bookingType" type="radio"value ="Normal"  {...register('bookingType')} className={`form-control ${errors.bookingType ? 'is-invalid' : ''}`} />
-                            <label htmlFor='Normal'>Normal</label>
+                            <p className="form-label">Booking Type</p>
+                            <div style={{display:"flex",gap:'10px'}}>
+                                <div style={{width:'20%'}}>
+                                    <label htmlFor='Premium'><input  name="bookingType" type="radio"value ="Premium"  {...register('bookingType')} className={`form-check-input ${errors.bookingType ? 'is-invalid' : ''}`} />Premium</label>
+                                </div>
+                                <div >
+                                    <label htmlFor='Normal'><input name="bookingType" type="radio"value ="Normal"  {...register('bookingType')} className={`form-check-input ${errors.bookingType ? 'is-invalid' : ''}`} />Normal</label>            
+                                </div>
+                             </div>
                             <div className="invalid-feedback">{errors.bookingType?.message}</div>
-                        
-                        
-                            <label className="form-label">Checkbox</label>
-                            <input name="checkBox" type="checkbox" {...register('checkBox')} className={`form-control ${errors.checkBox ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.checkBox?.message}</div>
-                        
-                        
-                     </div>
+                         
+                    </div>
+                    <div style={{marginTop:'10px',marginBottom:'10px'}}>
+                    <input name="acceptTerms" type="checkbox" {...register('acceptTerms')} id="acceptTerms" className={`form-check-input ${errors.acceptTerms ? 'is-invalid' : ''}`} />
+                        <label htmlFor="acceptTerms" className="form-check-label">Accept Terms & Conditions</label>
+                        <div className="invalid-feedback">{errors.acceptTerms?.message}</div>
+                    </div>
                     <div className="mb-3">
                         <button type="submit" disabled={isSubmitting} className="btn btn-primary me-2">
                             {isSubmitting && <span className="spinner-border spinner-border-sm me-1"></span>}

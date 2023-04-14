@@ -29,10 +29,11 @@ function List() {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th style={{ width: '30%' }}>Event Name</th>
-                        <th style={{ width: '30%' }}>Event Description</th>
-                        <th style={{ width: '10%' }}>Event Price</th>
-                        <th style={{ width: '30%' }}>Booking Type</th>
+                        <th style={{ width: '20%' }}>Event Name</th>
+                        <th style={{ width: '20%' }}>Event Description</th>
+                        <th style={{ width: '20%' }}>Event Price</th>
+                        <th style={{ width: '20%' }}>Booking Type</th>
+                        <th style={{ width: '20%' }}>Event Date</th>
                         <th style={{ width: '10%' }}></th>
                     </tr>
                 </thead>
@@ -43,6 +44,7 @@ function List() {
                             <td>{user.eventDescription}</td>
                             <td>{user.eventPrice}</td>
                             <td>{user.bookingType}</td>
+                            <td>{user.eventDate}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                                 <Link to={`edit/${user.id}`} className="btn btn-sm btn-primary me-1">Edit</Link>
                                 <button onClick={() => dispatch(userActions.delete(user.id))} className="btn btn-sm btn-danger" style={{ width: '60px' }} disabled={user.isDeleting}>

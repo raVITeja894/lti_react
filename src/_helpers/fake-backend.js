@@ -140,7 +140,8 @@ function fakeBackend() {
           eventDescription,
           eventPrice,
           bookingType,
-          checkBox,
+          acceptTerms,
+          eventDate,
         } = user;
         return {
           id,
@@ -151,7 +152,8 @@ function fakeBackend() {
           eventDescription,
           eventPrice,
           bookingType,
-          checkBox,
+          acceptTerms,
+          eventDate,
         };
       }
 
